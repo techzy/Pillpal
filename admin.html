@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+</head>
+<style>
+    /* Background styling */
+    body {
+        background-color: #f8f8ff; /* Base background color */
+        }
+    #icon-text{
+        font-size: 1.4rem !important;
+    }
+</style>
+<script src ="./server.js"></script>
+<body>
+    <header class="sticky-top bg-primary text-white py-1" style="background-color: #007bff;">
+        <h1 class="text-left ml-4">
+            <svg height="32px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                <path fill="#f8f8ff" d="M64 144c0-26.5 21.5-48 48-48s48 21.5 48 48l0 112-96 0 0-112zM0 144L0 368c0 61.9 50.1 112 112 112s112-50.1 112-112l0-178.4c1.8 19.1 8.2 38 19.8 54.8L372.3 431.7c35.5 51.7 105.3 64.3 156 28.1s63-107.5 27.5-159.2L427.3 113.3C391.8 61.5 321.9 49 271.3 85.2c-28 20-44.3 50.8-47.3 83l0-24.2c0-61.9-50.1-112-112-112S0 82.1 0 144zm296.6 64.2c-16-23.3-10-55.3 11.9-71c21.2-15.1 50.5-10.3 66 12.2l67 97.6L361.6 303l-65-94.8zM491 407.7c-.8 .6-1.6 1.1-2.4 1.6l4-2.8c-.5 .4-1 .8-1.6 1.2z"/>
+            </svg>
+            <span id="icon-text">Pillpal</span>
+        </h1>    
+    </header>
+    <div class="container d-flex justify-content-center mt-5">
+        <div class="card p-4 shadow-sm" style="max-width: 400px; width: 100%; background-color: #f8f8ff; border-radius: 10px;">
+            <div class="body text-center mt-5">
+                <h2 class="no-border-input h3">Treatment Plan</h2>
+                <form>
+                    <div id="inputs" class="input-group mt-4">
+                        <input type="text" class="form-control perc-name custom-input" placeholder="Enter Prescription Name"/>
+                        <input type="time" class="form-control" placeholder="Enter Quantity" min="0" style="max-width: 100px;">
+                    </div>
+                </form>
+                <button class="btn btn-primary mt-3" id="addButton">
+                    <svg height="15px" viewBox="0 0 448 512">
+                        <path fill="#f8f8fa" d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/>
+                    </svg>
+                    Add New Prescription
+                </button>
+                <button class="btn btn-outline-secondary mt-3" id="saveButton">
+                        <svg height="15px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path id="save-icon" fill="#6c757d" d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-242.7c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32L64 32zm0 96c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 224c-17.7 0-32-14.3-32-32l0-64zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/>
+                        </svg> Save Changes
+                    </button>
+            </div>
+        </div>
+    </div>
+    <script>
+
+    
+
+     //ADDING NEW PERC        
+    document.getElementById("addButton").addEventListener("click", function() {
+        console.log("button clicked");
+        const form = document.querySelector("form");
+        const inputGroupDivs = form.querySelectorAll("div.input-group");
+        const count = inputGroupDivs.length;
+        if(count <= 1){
+            const form = document.querySelector("form");
+            const html = `
+                <div id="inputs" class="input-group mt-2">
+                    <input type="text" class="form-control perc-name custom-input" placeholder="Enter Prescription Name"/>
+                    <input type="time" class="form-control" placeholder="Enter Quantity" min="0" style="max-width: 100px;">
+                </div>`;
+            form.insertAdjacentHTML("beforeend", html);
+        }
+        else{
+            alert("Max Number of Medicine Reached!");
+        }
+    });
+
+
+    // ERROR CHECKING FOR BOTH INPUTS, ONCLICK SAVE CHANGES.
+
+    document.getElementById("saveButton").addEventListener("click", function(event) {
+    event.preventDefault();
+
+    const form = document.querySelector("form");
+    const inputGroups = form.querySelectorAll(".input-group");
+    let allFilled = true;
+    const data = [];
+
+    inputGroups.forEach(group => {
+        const textInput = group.querySelector("input[type='text']");
+        const timeInput = group.querySelector("input[type='time']");
+
+        if (textInput.value.trim() === "" || timeInput.value.trim() === "") {
+            allFilled = false;
+        } else {
+            data.push({
+                prescriptionName: textInput.value,
+                time: timeInput.value
+            });
+        }
+    });
+
+    const existingAlert = document.querySelector(".alert");
+    if (existingAlert) {
+        existingAlert.remove(); // Remove any previous alert
+    }
+
+    if (!allFilled) {
+        const alertDiv = document.createElement("div");
+        alertDiv.className = "alert alert-danger mt-3";
+        alertDiv.role = "alert";
+        alertDiv.innerHTML = "Please fill in all fields before saving.";
+        form.insertAdjacentElement("beforebegin", alertDiv);
+    } else {
+        // Store data in a constant JSON object
+        const db = { prescriptions: data };
+        console.log("Data stored in db:", db);
+        const successDiv = document.createElement("div");
+        successDiv.className = "alert alert-success mt-3";
+        successDiv.role = "alert";
+        successDiv.innerHTML = "Treatment plan updated succesfully!";
+        form.insertAdjacentElement("beforebegin", successDiv);
+    }
+});
+
+document.getElementById("saveButton").addEventListener("mouseover", function(event) {
+    document.getElementById("save-icon").setAttribute("fill", "#f8f8ff");
+});
+
+document.getElementById("saveButton").addEventListener("mouseout", function(event) {
+    document.getElementById("save-icon").setAttribute("fill", "#6c757d");
+});
+
+//     document.getElementById("saveButton").addEventListener("click", function(event) {
+//     event.preventDefault();
+
+//     const form = document.querySelector("form");
+//     const inputs = form.querySelectorAll("input");
+//     let allFilled = true;
+
+//     inputs.forEach(input => {
+//         if (input.value.trim() === "") {
+//             allFilled = false;
+//         }
+//     });
+
+//     const existingAlert = document.querySelector(".alert");
+//     if (existingAlert) {
+//         existingAlert.remove(); // Remove any previous alert
+//     }
+
+//     if (!allFilled) {
+//         const alertDiv = document.createElement("div");
+//         alertDiv.className = "alert alert-danger mt-3";
+//         alertDiv.role = "alert";
+//         alertDiv.innerHTML = "Please fill in all fields before saving.";
+        
+//         form.insertAdjacentElement("beforebegin", alertDiv);
+//     }
+
+// });
+    </script>
+</body>
+</html>

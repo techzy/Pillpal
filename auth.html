@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authorization Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+    <style>
+        /* Background styling */
+        body {
+            background-color: #f8f8ff; /* Base background color */
+        }
+        #icon-text{
+            font-size: 1.4rem !important;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- Sticky Header -->
+    <header class="sticky-top bg-primary text-white py-1" style="background-color: #007bff;">
+        <h1 class="text-left ml-4">
+            <svg height="32px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                <path fill="#f8f8ff" d="M64 144c0-26.5 21.5-48 48-48s48 21.5 48 48l0 112-96 0 0-112zM0 144L0 368c0 61.9 50.1 112 112 112s112-50.1 112-112l0-178.4c1.8 19.1 8.2 38 19.8 54.8L372.3 431.7c35.5 51.7 105.3 64.3 156 28.1s63-107.5 27.5-159.2L427.3 113.3C391.8 61.5 321.9 49 271.3 85.2c-28 20-44.3 50.8-47.3 83l0-24.2c0-61.9-50.1-112-112-112S0 82.1 0 144zm296.6 64.2c-16-23.3-10-55.3 11.9-71c21.2-15.1 50.5-10.3 66 12.2l67 97.6L361.6 303l-65-94.8zM491 407.7c-.8 .6-1.6 1.1-2.4 1.6l4-2.8c-.5 .4-1 .8-1.6 1.2z"/>
+            </svg>
+            <span id="icon-text">Pillpal</span>
+        </h1>    
+    </header>
+
+    <!-- Centered Content Area -->
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card p-4 shadow-sm" style="max-width: 400px; width: 100%; background-color: #f8f8ff; border-radius: 10px;">
+            <form id="authForm">
+                <label for="deviceName" class="font-weight-bold text-dark">Enter the Device ID below to Login:</label>
+                <input type="text" id="deviceName" class="form-control mb-3" name="deviceName" placeholder="Type Device ID here" required>
+                <input type="number" id="emergencyContact" class="form-control mb-3" placeholder="Emergency Contact">
+            </form>
+            <a href="/admin">
+                <button id="auth-btn" type="submit" class="btn btn-block btn-primary">
+                    Login  
+                <svg height="15px" viewBox="0 0 512 512">
+                    <path fill="#f8f8ff" d="M217.9 105.9L340.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L217.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1L32 320c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM352 416l64 0c17.7 0 32-14.3 32-32l0-256c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c53 0 96 43 96 96l0 256c0 53-43 96-96 96l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/>
+                </svg>
+            </button>
+            </a>
+        </div>
+    </div>
+    <script>
+        document.getElementById("auth-btn").addEventListener("click", function(event) {
+
+            const form = document.querySelector("form");
+            const inputs = form.querySelectorAll("input");
+            let allFilled = true;
+
+            inputs.forEach(input => {
+                if (input.value.trim() === "") {
+                    allFilled = false;
+                }
+            });
+
+            const existingAlert = document.querySelector(".alert");
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+
+            if (!allFilled) {
+                event.preventDefault();
+                const alertDiv = document.createElement("div");
+                alertDiv.className = "alert alert-danger mt-3";
+                alertDiv.role = "alert";
+                alertDiv.innerHTML = "Please fill in the device ID.";
+                form.insertAdjacentElement("beforebegin", alertDiv);
+            }
+        });
+    </script>
+</body>
+</html>
